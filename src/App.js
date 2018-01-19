@@ -19,8 +19,16 @@ const Students = () => (
     {
       _.map(students, s => <StudentLink {...s} key={s.id}/>)
     }
+     <Route path="/students/:id" component={StudentContainer}/>
   </div>
 )
+
+const StudentContainer = ({match}) => {
+  let s = _.find(students, ['id', match.params.id])
+  return (
+    <StudentLine {...s} key={s.id}/>
+  )
+}
 
 const StudentLink = ({id, name}) => (
   <div><Link to={`/students/${id}`}>{name}</Link></div>
