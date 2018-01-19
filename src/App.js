@@ -1,5 +1,10 @@
 import React, { Component } from 'react';
 import _ from 'lodash'
+import {
+  BrowserRouter as Router,
+  Route,
+  Link
+} from 'react-router-dom'
 
 const students =[
   {id:'3', name: 'putek', score: 100},
@@ -7,19 +12,35 @@ const students =[
   {id:'27', name: 'azzip', score: 60}
 ]
 
-const StudentsLine = (props)=>(
-  <div> {props.id} {props.name} = {props.score} </div>
+const Home = () => (<div>Home</div>)
+
+const Students = () => (
+  <div>
+    {
+      _.map(students, s => <StudentLink {...s} key={s.id}/>)
+    }
+  </div>
 )
+
+const StudentLink = ({id, name}) => (
+  <div><Link to={`/students/${id}`}>{name}</Link></div>
+)
+const StudentLine = ({id, name, score}) => (
+    <div>{id} {name} = {score}</div>
+  )
 
 class App extends Component {
   render() {
     return (
+      <Router>
       <div >
-        {
-          _.map(students, s => <StudentsLine {...s} key={s.id}/>)
-        }
+        
+          <Route exact path="/" component={Home}/>
+          <Route path="/students" component={Students}/> 
+        
       </div>
-    );
+      </Router>
+    );      
   }
 }
 
